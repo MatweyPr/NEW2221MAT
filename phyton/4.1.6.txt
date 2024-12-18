@@ -1,0 +1,55 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Загрузка датасета
+df = pd.read_csv('/ekb_weather.csv')
+
+# Преобразование столбца 'date' в формат datetime
+df['date'] = pd.to_datetime(df['date'])
+
+# Извлечение месяца из даты
+df['month'] = df['date'].dt.month
+
+# 1. Рассчитываем среднее значение давления для каждого месяца
+average_pressure = df.groupby('month')['pressure'].mean().tolist()
+
+# 2. Рассчитываем медиану давления для каждого месяца
+median_pressure = df.groupby('month')['pressure'].median().tolist()
+
+# 3. Рассчитываем моду давления для каждого месяца
+mode_pressure = df.groupby('month')['pressure'].agg(lambda x: x.mode()[0] if not x.mode().empty else None).tolist()
+
+# 4. Создаем список месяцев
+months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 
+          'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+
+# 5. Строим столбчатую диаграмму для среднего давления
+plt.figure(figsize=(18, 6))
+
+# Среднее давление
+plt.subplot(1, 3, 1)
+plt.bar(months, average_pressure, color='blue', alpha=0.7)
+plt.title('Среднее давление по месяцам')
+plt.xlabel('Месяцы')
+plt.ylabel('Давление (гПа)')
+plt.xticks(rotation=45)
+
+# Медианное давление
+plt.subplot(1, 3, 2)
+plt.bar(months, median_pressure, color='orange', alpha=0.7)
+plt.title('Медианное давление по месяцам')
+plt.xlabel('Месяцы')
+plt.ylabel('Давление (гПа)')
+plt.xticks(rotation=45)
+
+# Мода давления
+plt.subplot(1, 3, 3)
+plt.bar(months, mode_pressure, color='green', alpha=0.7)
+plt.title('Мода давления по месяцам')
+plt.xlabel('Месяцы')
+plt.ylabel('Давление (гПа)')
+plt.xticks(rotation=45)
+
+# Показать график
+plt.tight_layout()
+plt.show()

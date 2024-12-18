@@ -1,0 +1,29 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Данные
+x_data = np.arange(0, 10, 0.01) # Шаг 0.01 от 0 до 10
+y_data = np.sin(x_data)
+
+# Структурированный подход
+fig, ax = plt.subplots(figsize=(10, 5)) # Создаем фигуру и оси
+
+ax.plot(x_data, y_data, color='red', linewidth=1.0, label='sin(x)') # Рисуем график
+ax.set_title('График функции sin(x)') # Заголовок
+ax.set_xlabel('x') # Метка оси абсцисс
+ax.set_ylabel('sin(x)') # Метка оси ординат
+ax.grid(linestyle='--', color='gray', linewidth=0.8) # Сетка
+ax.legend() # Легенда
+plt.show()
+
+
+# Неструктурированный подход
+plt.figure(figsize=(10, 5)) # Создаем фигуру
+
+plt.plot(x_data, y_data, color='red', linewidth=1.0, label='sin(x)') # Рисуем график
+plt.title('График функции sin(x)') # Заголовок
+plt.xlabel('x') # Метка оси абсцисс
+plt.ylabel('sin(x)') # Метка оси ординат
+plt.grid(linestyle='--', color='gray', linewidth=0.8) # Сетка
+plt.legend() # Легенда
+plt.show()

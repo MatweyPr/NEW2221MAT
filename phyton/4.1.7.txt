@@ -1,0 +1,55 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Загрузка датасета
+df = pd.read_csv('/ekb_weather.csv')
+
+# Преобразование столбца 'date' в формат datetime
+df['date'] = pd.to_datetime(df['date'])
+
+# Извлечение месяца из даты
+df['month'] = df['date'].dt.month
+
+# 1. Рассчитываем среднее значение влажности для каждого месяца
+average_humidity = df.groupby('month')['humidity'].mean().tolist()
+
+# 2. Рассчитываем медиану влажности для каждого месяца
+median_humidity = df.groupby('month')['humidity'].median().tolist()
+
+# 3. Рассчитываем моду влажности для каждого месяца
+mode_humidity = df.groupby('month')['humidity'].agg(lambda x: x.mode()[0] if not x.mode().empty else None).tolist()
+
+# 4. Создаем список месяцев
+months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 
+          'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+
+# 5. Строим столбчатую диаграмму для средней влажности
+plt.figure(figsize=(18, 6))
+
+# Средняя влажность
+plt.subplot(1, 3, 1)
+plt.bar(months, average_humidity, color='blue', alpha=0.7)
+plt.title('Средняя влажность по месяцам')
+plt.xlabel('Месяцы')
+plt.ylabel('Влажность (%)')
+plt.xticks(rotation=45)
+
+# Медианная влажность
+plt.subplot(1, 3, 2)
+plt.bar(months, median_humidity, color='orange', alpha=0.7)
+plt.title('Медианная влажность по месяцам')
+plt.xlabel('Месяцы')
+plt.ylabel('Влажность (%)')
+plt.xticks(rotation=45)
+
+# Мода влажности
+plt.subplot(1, 3, 3)
+plt.bar(months, mode_humidity, color='green', alpha=0.7)
+plt.title('Мода влажности по месяцам')
+plt.xlabel('Месяцы')
+plt.ylabel('Влажность (%)')
+plt.xticks(rotation=45)
+
+# Показать график
+plt.tight_layout()
+plt.show()

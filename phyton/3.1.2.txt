@@ -1,0 +1,19 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Данные
+x_data = np.arange(0, 10, 0.01) # Шаг 0.01 от 0 до 10
+y_data = np.cos(x_data)
+
+# Построение графика
+plt.figure(figsize=(10, 5)) # Размер фигуры
+
+plt.plot(x_data, y_data, 'o', color='green', label='cos(x)') # Точечный график, кружки
+
+plt.title('Точечный график функции cos(x)') # Заголовок
+plt.xlabel('x') # Метка оси абсцисс
+plt.ylabel('cos(x)') # Метка оси ординат
+plt.grid(linestyle='--', color='green', linewidth=0.8) # Сетка
+plt.legend() # Легенда
+
+plt.show()

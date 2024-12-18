@@ -1,0 +1,37 @@
+import pandas as pd
+
+# Загрузка датасета
+df = pd.read_csv('/ekb_weather.csv')
+
+# Преобразование столбца 'date' в формат datetime
+df['date'] = pd.to_datetime(df['date'])
+
+# Извлечение месяца из даты
+df['month'] = df['date'].dt.month
+
+# Словари для хранения дисперсии и стандартного отклонения
+variance_dict = {}
+std_dev_dict = {}
+
+# Названия месяцев
+months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 
+          'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+
+# Рассчитываем дисперсию и стандартное отклонение для каждого месяца
+for month in range(1, 13):
+    monthly_temps = df[df['month'] == month]['temp']  # есть столбец 'temp'
+    
+    # Расчет дисперсии и стандартного отклонения
+    variance = monthly_temps.var()
+    std_dev = monthly_temps.std()
+    
+    # Сохранение результатов в словари
+    variance_dict[months[month - 1]] = variance
+    std_dev_dict[months[month - 1]] = std_dev
+
+# Вывод результатов
+print("Дисперсия температуры по месяцам:")
+print(variance_dict)
+
+print("\nСтандартное отклонение температуры по месяцам:")
+print(std_dev_dict)

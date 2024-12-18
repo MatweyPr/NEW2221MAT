@@ -1,0 +1,8 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Загрузка датасета
+df = pd.read_csv('/ekb_weather.csv')
+
+# Вывод первых 10 строк
+print(df.head(10))

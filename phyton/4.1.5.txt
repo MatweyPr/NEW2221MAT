@@ -1,0 +1,55 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Загрузка датасета
+df = pd.read_csv('/ekb_weather.csv')
+
+# Преобразование столбца 'date' в формат datetime
+df['date'] = pd.to_datetime(df['date'])
+
+# Извлечение месяца из даты
+df['month'] = df['date'].dt.month
+
+# 1. Рассчитываем среднее значение температуры для каждого месяца
+average_temperatures = df.groupby('month')['temp'].mean().tolist()
+
+# 2. Рассчитываем медиану температуры для каждого месяца
+median_temperatures = df.groupby('month')['temp'].median().tolist()
+
+# 3. Рассчитываем моду температуры для каждого месяца
+mode_temperatures = df.groupby('month')['temp'].agg(lambda x: x.mode()[0] if not x.mode().empty else None).tolist()
+
+# 4. Создаем список месяцев
+months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 
+          'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+
+# 5. Строим столбчатую диаграмму для средней температуры
+plt.figure(figsize=(12, 6))
+
+# Средняя температура
+plt.subplot(1, 3, 1)
+plt.bar(months, average_temperatures, color='blue', alpha=0.7)
+plt.title('Средняя температура по месяцам')
+plt.xlabel('Месяцы')
+plt.ylabel('Температура (°C)')
+plt.xticks(rotation=45)
+
+# Медианная температура
+plt.subplot(1, 3, 2)
+plt.bar(months, median_temperatures, color='orange', alpha=0.7)
+plt.title('Медианная температура по месяцам')
+plt.xlabel('Месяцы')
+plt.ylabel('Температура (°C)')
+plt.xticks(rotation=45)
+
+# Мода температуры
+plt.subplot(1, 3, 3)
+plt.bar(months, mode_temperatures, color='green', alpha=0.7)
+plt.title('Мода температуры по месяцам')
+plt.xlabel('Месяцы')
+plt.ylabel('Температура (°C)')
+plt.xticks(rotation=45)
+
+# Показать график
+plt.tight_layout()
+plt.show()

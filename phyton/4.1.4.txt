@@ -1,0 +1,49 @@
+import pandas as pd
+
+# Загрузка датасета
+df = pd.read_csv('/ekb_weather.csv')
+
+# Преобразование столбца 'date' в формат datetime
+df['date'] = pd.to_datetime(df['date'])
+
+# Извлечение месяца из даты
+df['month'] = df['date'].dt.month
+
+# 1) Средняя температура за весь период
+average_temperature = df['temp'].mean()
+print(f"Средняя температура за весь период: {average_temperature:.2f}°C")
+
+# 2) Среднее давление за весь период
+average_pressure = df['pressure'].mean()
+print(f"Среднее давление за весь период: {average_pressure:.2f} мм рт. ст.")
+
+# 3) Средняя влажность за весь период
+average_humidity = df['humidity'].mean()
+print(f"Средняя влажность за весь период: {average_humidity:.2f}%")
+
+# 4) Средняя температура в январе и декабре
+january_avg_temp = df[df['month'] == 1]['temp'].mean()
+december_avg_temp = df[df['month'] == 12]['temp'].mean()
+
+if january_avg_temp < december_avg_temp:
+    print("Средняя температура ниже в январе.")
+else:
+    print("Средняя температура ниже в декабре.")
+
+# 5) Среднее давление в апреле и ноябре
+april_avg_pressure = df[df['month'] == 4]['pressure'].mean()
+november_avg_pressure = df[df['month'] == 11]['pressure'].mean()
+
+if april_avg_pressure > november_avg_pressure:
+    print("Среднее давление выше в апреле.")
+else:
+    print("Среднее давление выше в ноябре.")
+
+# 6) Средняя влажность в июне и августе
+june_avg_humidity = df[df['month'] == 6]['humidity'].mean()
+august_avg_humidity = df[df['month'] == 8]['humidity'].mean()
+
+if june_avg_humidity > august_avg_humidity:
+    print("Средняя влажность выше в июне.")
+else:
+    print("Средняя влажность выше в августе.")
